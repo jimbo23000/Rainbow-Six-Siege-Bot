@@ -1,0 +1,23 @@
+{
+  "name": "rainbow-six-siege-bot",
+  "version": "1.0.0",
+  "description": "This bot is intended for personal use on a private Rainbow Six Siege Discord server I own.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimbo23000/Rainbow-Six-Siege-Bot.git"
+  },
+  "author": "jimbo23000",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jimbo23000/Rainbow-Six-Siege-Bot/issues"
+  },
+  "homepage": "https://github.com/jimbo23000/Rainbow-Six-Siege-Bot#readme",
+  "dependencies": {
+    "discord.js": "^14.20.0",
+    "dotenv": "^16.5.0"
+  }
+}
