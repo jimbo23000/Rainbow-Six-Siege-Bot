@@ -4,10 +4,9 @@ const applicationId = process.env.APPLICATION_ID;
 const guildId = process.env.GUILD_ID;
 
 const { REST, Routes } = require('discord.js');
-
-const { commandsJSONified } = require('./fetch-commands.js');
-
 const rest = new REST().setToken(discordToken);
+
+const commandsJSONified = require('./fetch-commands.js');
 
 (async () => {
     try {
