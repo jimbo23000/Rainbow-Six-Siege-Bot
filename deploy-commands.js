@@ -6,7 +6,7 @@ const serverId = process.env.SERVER_ID;
 const { REST, Routes } = require('discord.js');
 const rest = new REST().setToken(discordToken);
 
-const commandsJSONified = require('./load-commands.js').commandsJSONified;
+const { commandsJSONified } = require('./load-commands.js');
 
 (async () => {
     try {
