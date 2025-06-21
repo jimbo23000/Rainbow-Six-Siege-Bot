@@ -1,12 +1,11 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const foldersPath = path.join(__dirname, 'commands');
+const commandFolders = fs.readdirSync(foldersPath);
 
 const { Collection } = require('discord.js');
 const commands = new Collection();
 const commandsJSONified = [];
-
-const foldersPath = path.join(__dirname, 'commands');
-const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
     const commandsPath = path.join(foldersPath, folder);
