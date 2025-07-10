@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/jimbo23000/Rainbow-Six-Siege-Bot#readme",
   "dependencies": {
+    "csv": "^6.3.11",
     "discord.js": "^14.20.0",
-    "dotenv": "^16.5.0"
+    "dotenv": "^16.5.0",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
   }
 }

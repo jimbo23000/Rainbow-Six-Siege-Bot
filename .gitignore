@@ -2,4 +2,6 @@
 .DS_Store
 
 .env
+*.sqlite
+_data
 node_modules

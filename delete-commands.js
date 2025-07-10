@@ -7,15 +7,14 @@ const { REST, Routes } = require('discord.js');
 const rest = new REST().setToken(discordToken);
 
 const args = process.argv;
-
 if (args.length > 2) {
     rest.delete(Routes.applicationGuildCommand(applicationId, serverId, args[2]))
-        .then(() => console.log('Successfully deleted guild command'))
+        .then(() => console.log('Successfully deleted guild command.'))
         .catch(console.error);
     /*
     // Code for global deletion
     rest.delete(Routes.applicationCommand(applicationId, 'commandId'))
-        .then(() => console.log('Successfully deleted application command'))
+        .then(() => console.log('Successfully deleted application command.'))
         .catch(console.error);
     */
 } else {

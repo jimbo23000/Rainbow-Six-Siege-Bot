@@ -7,10 +7,9 @@ const { REST, Routes } = require('discord.js');
 const rest = new REST().setToken(discordToken);
 
 const { commandsJSONified } = require('./load-commands.js');
-
 (async () => {
     try {
-        console.log(`Started refreshing ${commandsJSONified.length} application (/) commands.`);
+        console.log(`Started reloading ${commandsJSONified.length} application (/) commands.`);
         const data = await rest.put(
             Routes.applicationGuildCommands(applicationId, serverId),
             { body: commandsJSONified },

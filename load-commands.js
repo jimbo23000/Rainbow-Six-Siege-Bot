@@ -6,7 +6,6 @@ const commandFolders = fs.readdirSync(foldersPath);
 const { Collection } = require('discord.js');
 const commands = new Collection();
 const commandsJSONified = [];
-
 for (const folder of commandFolders) {
     const commandsPath = path.join(foldersPath, folder);
     const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
