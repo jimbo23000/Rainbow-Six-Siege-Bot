@@ -15,4 +15,4 @@ const eventHandler = (client) => {
     }
 };
 
-exports.eventHandler = eventHandler;
+module.exports = { eventHandler };

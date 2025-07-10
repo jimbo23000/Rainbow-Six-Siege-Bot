@@ -21,5 +21,4 @@ for (const folder of commandFolders) {
     }
 }
 
-exports.commands = commands;
-exports.commandsJSONified = commandsJSONified
+module.exports = { commands, commandsJSONified};

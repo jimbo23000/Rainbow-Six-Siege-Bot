@@ -5,15 +5,16 @@ const sequelize = new Sequelize('database', 'username', 'password', {
     logging: false,
     storage: 'database.sqlite',
 });
-const fs = require('fs');
-const path = require('node:path');
-const CurrencyShop = require(path.join(__dirname, 'models/currency-shop.js'))(sequelize, Sequelize.DataTypes);
+const CurrencyShop = require('./models/currency-shop.js')(sequelize, Sequelize.DataTypes);
+require('./models/users.js')(sequelize, Sequelize.DataTypes);
+require('./models/user-items.js')(sequelize, Sequelize.DataTypes);
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 sequelize.sync({ force }).then(async () => {
     const items = [];
     await new Promise((resolve, reject) => {
-        fs.createReadStream(path.join(__dirname, '_data/items.csv'))
+        const fs = require('fs');
+        fs.createReadStream('./_data/items.csv')
             .pipe(require('csv-parse').parse({
                 columns: true,
                 skip_empty_lines: true
