@@ -11,6 +11,7 @@ require('./models/user-items.js')(sequelize, Sequelize.DataTypes);
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 sequelize.sync({ force }).then(async () => {
+    console.log('Starting database initialization.');
     const items = [];
     await new Promise((resolve, reject) => {
         const fs = require('fs');
@@ -23,15 +24,15 @@ sequelize.sync({ force }).then(async () => {
                 items.push({ name: row.name, cost: Number(row.cost) })
             })
             .on('end', () => {
-                console.log('Successfully parsed items.csv.');
+                console.log(`Successfully parsed ${items.length} items.`);
                 resolve();
             })
             .on('error', (error) => {
-                console.error('Error parsing items.csv: ', error.message);
+                console.error(`Error parsing items: ${error.message}.`);
                 reject(error);
             });
     });
     await Promise.all(items.map(item => CurrencyShop.upsert(item)));
-    console.log('Database synced.');
+    console.log('Finished database initialization.');
     sequelize.close();
 }).catch(console.error);
