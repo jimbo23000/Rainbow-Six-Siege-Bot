@@ -7,17 +7,17 @@ module.exports = {
         .addUserOption(option =>
             option
                 .setName('target')
-                .setDescription('The member to kick')
+                .setDescription('The member to kick.')
                 .setRequired(true))
         .addStringOption(option =>
             option
                 .setName('reason')
-                .setDescription('The reason for kicking'))
+                .setDescription('The reason for kicking.'))
         .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
         .setContexts(InteractionContextType.Guild),
     async execute(interaction) {
         const target = interaction.options.getUser('target');
-        const reason = interaction.options.getString('reason') ?? 'No reason provided';
+        const reason = interaction.options.getString('reason') ?? 'No reason provided.';
         const confirm = new ButtonBuilder()
             .setCustomId('confirm')
             .setLabel('Confirm Kick')
@@ -40,10 +40,10 @@ module.exports = {
                 await interaction.guild.members.kick(target);
                 await confirmation.update({ content: `${target.username} has been kicked for reason: ${reason}`, components: [] });
             } else if (confirmation.customId === 'cancel') {
-                await confirmation.update({ content: 'Action cancelled', components: [] });
+                await confirmation.update({ content: 'Action cancelled.', components: [] });
             }
         } catch {
-            await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+            await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling.', components: [] });
         }
     },
 };

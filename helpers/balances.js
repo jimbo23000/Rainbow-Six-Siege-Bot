@@ -21,7 +21,7 @@ async function addBalance(id, amount) {
 	return newUser;
 }
 
-async function getBalance(id) {
+function getBalance(id) {
     const user = balances.get(id);
 	return user ? user.balance : 0;
 }
