@@ -13,6 +13,12 @@ module.exports = {
     async execute(interaction) {
         const target = interaction.options.getUser('target') ?? interaction.user;
         const user = await Users.findOne({ where: { user_id: target.id } });
+        if (!user) {
+            return interaction.reply({ 
+                content: 'No one has items!',
+                flags: MessageFlags.Ephemeral
+            });
+        }
         const items = await user.getItems();
         if (!items.length) {
             return interaction.reply({
