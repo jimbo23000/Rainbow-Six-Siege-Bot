@@ -14,7 +14,7 @@ module.exports = {
         const target = interaction.options.getUser('target') ?? interaction.user;
         const user = await Users.findOne({ where: { user_id: target.id } });
         if (!user) {
-            return interaction.reply({ 
+            return interaction.reply({
                 content: `${target.tag} has nothing!`,
                 flags: MessageFlags.Ephemeral
             });
@@ -26,9 +26,6 @@ module.exports = {
                 flags: MessageFlags.Ephemeral
             });
         }
-        await interaction.reply({
-            content: `${target.tag} has ${items.map(i => `${i.amount} ${i.item.name}`).join(', ')}`,
-            flags: MessageFlags.Ephemeral
-        });
+        await interaction.reply(`${target.tag} has ${items.map(i => `${i.amount} ${i.item.name}`).join(', ')}`);
     },
 };
