@@ -15,12 +15,12 @@ module.exports = {
         const user = await Users.findOne({ where: { user_id: target.id } });
         if (!user) {
             return interaction.reply({ 
-                content: 'No one has items!',
+                content: `${target.tag} has nothing!`,
                 flags: MessageFlags.Ephemeral
             });
         }
         const items = await user.getItems();
-        if (!items.length) {
+        if (!items || !items.length) {
             return interaction.reply({
                 content: `${target.tag} has nothing!`,
                 flags: MessageFlags.Ephemeral
