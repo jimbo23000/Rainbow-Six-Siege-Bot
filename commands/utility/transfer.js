@@ -4,7 +4,7 @@ const { addBalance, getBalance } = require('../../helpers/balances.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('transfer')
-        .setDescription('Transfers funds to a member\'s account.')
+        .setDescription(`Transfers funds to a member's account.`)
         .addIntegerOption(option =>
             option
                 .setName('amount')
@@ -14,7 +14,7 @@ module.exports = {
         .addUserOption(option =>
             option
                 .setName('target')
-                .setDescription('The member\'s account to transfer funds to.')
+                .setDescription(`The member's account to transfer funds to.`)
                 .setRequired(true))
         .setContexts(InteractionContextType.Guild),
     async execute(interaction) {
@@ -23,12 +23,12 @@ module.exports = {
         const target = interaction.options.getUser('target');
         if (amount > balance) {
             return interaction.reply({
-                content: `${interaction.user}\'s account has insufficient funds, unable to transfer $${amount}.`,
+                content: `Your account has a balance of $${getBalance(interaction.user.id)}. You're unable to transfer $${amount} to ${target.tag}'s account.`,
                 flags: MessageFlags.Ephemeral
             });
         }
         addBalance(interaction.user.id, -amount);
         addBalance(target.id, amount);
-        return interaction.reply(`${interaction.user} has transferred $${amount} to ${target.tag}\'s account.`);
+        return interaction.reply(`You've transferred $${amount} to ${target.tag}'s account.`);
     },
 };
