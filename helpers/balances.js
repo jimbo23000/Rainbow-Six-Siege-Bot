@@ -1,7 +1,7 @@
+const { Users } = require('../load-database');
+
 const { Collection } = require('discord.js');
 const accounts = new Collection();
-
-const { Users } = require('../load-database');
 
 (async () => {
 	const storedAccounts = await Users.findAll();

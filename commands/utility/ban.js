@@ -17,7 +17,7 @@ module.exports = {
         .setContexts(InteractionContextType.Guild),
     async execute(interaction) {
         const target = interaction.options.getUser('target');
-        const reason = interaction.options.getString('reason') ?? 'No reason provided.';
+        const reason = interaction.options.getString('reason') ?? 'No reason provided';
         const confirm = new ButtonBuilder()
             .setCustomId('confirm')
             .setLabel('Confirm Ban')
@@ -39,7 +39,7 @@ module.exports = {
             if (confirmation.customId === 'confirm') {
                 await interaction.guild.members.ban(target);
                 await confirmation.update({
-                    content: `${target.username} has been banned for reason:\n\`${reason}\``,
+                    content: `${target.username} has been banned for reason:\n\`${reason}\`.`,
                     components: []
                 });
             } else if (confirmation.customId === 'cancel') {

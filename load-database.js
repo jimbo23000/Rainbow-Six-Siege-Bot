@@ -33,4 +33,4 @@ Reflect.defineProperty(Users.prototype, 'getItems', {
 	},
 });
 
-module.exports = { Users, CurrencyShop, UserItems };
+module.exports = { CurrencyShop, UserItems, Users };

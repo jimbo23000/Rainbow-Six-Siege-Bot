@@ -1,5 +1,5 @@
 const { InteractionContextType, MessageFlags, SlashCommandBuilder } = require('discord.js');
-const { Users, CurrencyShop } = require('../../load-database.js');
+const { CurrencyShop, Users } = require('../../load-database.js');
 const { addBalance, getBalance } = require('../../helpers/balances.js');
 
 module.exports = {
