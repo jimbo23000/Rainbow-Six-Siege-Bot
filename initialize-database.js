@@ -6,8 +6,8 @@ const sequelize = new Sequelize('database', 'username', 'password', {
     storage: 'database.sqlite',
 });
 const CurrencyShop = require('./models/currency-shop.js')(sequelize, Sequelize.DataTypes);
-require('./models/users.js')(sequelize, Sequelize.DataTypes);
 require('./models/user-items.js')(sequelize, Sequelize.DataTypes);
+require('./models/users.js')(sequelize, Sequelize.DataTypes);
 
 const force = process.argv.includes('--force') || process.argv.includes('-f');
 sequelize.sync({ force }).then(async () => {
