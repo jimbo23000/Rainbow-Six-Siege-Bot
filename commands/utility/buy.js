@@ -26,9 +26,13 @@ module.exports = {
         const { Op } = require('sequelize');
         const item = await CurrencyShop.findOne({ where: { name: { [Op.like]: itemName } } });
         if (!item) {
-            const isPlural = /s$/i;
+            const formattedItemName = itemName
+                .toLowerCase()
+                .split(/\s+/)
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
             return interaction.reply({
-                content: `Unfortunately \`${itemName.charAt(0).toUpperCase() + itemName.slice(1).toLowerCase()}${isPlural.test(itemName) ? '' : 's'}\` aren't currently in stock at the shop. Check back again later.`,
+                content: `Unfortunately \`${formattedItemName}\` aren't currently in stock at the shop. Check back again later.`,
                 flags: MessageFlags.Ephemeral
             });
         }
