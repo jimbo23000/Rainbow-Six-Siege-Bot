@@ -8,5 +8,5 @@ module.exports = {
             return;
         }
 	    addBalance(message.author.id, 1);
-    }
-}
+    },
+};

@@ -15,17 +15,17 @@ module.exports = {
         const user = await Users.findOne({ where: { user_id: target.id } });
         if (!user) {
             return interaction.reply({
-                content: `${target.tag} has nothing in their inventory.`,
+                content: `${target.displayName} has nothing in their inventory.`,
                 flags: MessageFlags.Ephemeral
             });
         }
         const items = await user.getItems();
         if (!items || !items.length) {
             return interaction.reply({
-                content: `${target.tag} has nothing in their inventory.`,
+                content: `${target.displayName} has nothing in their inventory.`,
                 flags: MessageFlags.Ephemeral
             });
         }
-        await interaction.reply(`${target.tag} has ${items.map(i => `${i.amount} ${i.item.name}`).join(', ')} in their inventory.`);
+        await interaction.reply(`${target.displayName} has ${items.map(i => `${i.amount} ${i.item.name}${i.amount > 1 ? 's' : ''}`).join(', ')} in their inventory.`);
     },
 };

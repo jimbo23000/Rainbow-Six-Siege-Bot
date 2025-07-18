@@ -13,7 +13,7 @@ module.exports = {
     async execute(interaction) {
         const target = interaction.options.getUser('target') ?? interaction.user;
         await interaction.reply({
-            content: `${target.tag}'s account has a balance of $${getBalance(target.id)}.`,
+            content: `${target.displayName}'s account has a balance of $${getBalance(target.id)}.`,
             flags: MessageFlags.Ephemeral
         });
     },

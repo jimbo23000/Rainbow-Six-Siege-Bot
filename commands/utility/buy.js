@@ -26,20 +26,22 @@ module.exports = {
         const { Op } = require('sequelize');
         const item = await CurrencyShop.findOne({ where: { name: { [Op.like]: itemName } } });
         if (!item) {
+            const isPlural = /s$/i;
             return interaction.reply({
-                content: `That item doesn't appear to be in stock at the shop. Check back again later.`,
+                content: `Unfortunately \`${itemName.charAt(0).toUpperCase() + itemName.slice(1).toLowerCase()}${isPlural.test(itemName) ? '' : 's'}\` aren't currently in stock at the shop. Check back again later.`,
                 flags: MessageFlags.Ephemeral
             });
         }
+        const isVowel = /^[aeiou]/i;
         if (item.cost > getBalance(interaction.user.id)) {
             return interaction.reply({
-                content: `Your account has a balance of $${getBalance(interaction.user.id)}. You're unable to buy a[n] ${item.name} for $${item.cost}.`,
+                content: `Your account has a balance of $${getBalance(interaction.user.id)}. Unfortunately you're unable to buy a${isVowel.test(item.name) ? 'n' : ''} ${item.name} for $${item.cost}.`,
                 flags: MessageFlags.Ephemeral
             });
         }
         const user = await Users.findOne({ where: { user_id: interaction.user.id } });
         addBalance(interaction.user.id, -item.cost);
         await user.addItem(item);
-        return interaction.reply(`You've bought a[n] ${item.name} for $${item.cost}.`);
+        return interaction.reply(`Congratulations you've bought a${isVowel.test(item.name) ? 'n' : ''} ${item.name} for $${item.cost}.`);
     },
 };

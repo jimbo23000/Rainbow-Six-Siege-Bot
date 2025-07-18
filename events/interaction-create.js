@@ -6,7 +6,7 @@ module.exports = {
         if (interaction.isChatInputCommand()) {
             const command = interaction.client.commands.get(interaction.commandName);
             if (!command) {
-                console.error(`No command matching ${interaction.commandName} was found.`);
+                console.error(`[InteractionCreate] Unable to find a command named ${interaction.commandName}.`);
                 return;
             }
             const { cooldowns } = interaction.client;
@@ -22,7 +22,7 @@ module.exports = {
                 if (now < expirationTime) {
                     const expiredTimestamp = Math.round(expirationTime / 1_000);
                     return interaction.reply({
-                        content: `Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`,
+                        content: `Please wait, you're on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`,
                         flags: MessageFlags.Ephemeral
                     });
                 }
@@ -48,7 +48,7 @@ module.exports = {
         } else if (interaction.isAutocomplete()) {
             const command = interaction.client.commands.get(interaction.commandName);
             if (!command) {
-                console.error(`No command matching ${interaction.commandName} was found.`);
+                console.error(`[InteractionCreate] Unable to find a command named ${interaction.commandName}.`);
                 return;
             }
             try {

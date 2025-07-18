@@ -29,7 +29,7 @@ module.exports = {
         const row = new ActionRowBuilder()
             .addComponents(cancel, confirm);
         const response = await interaction.reply({
-            content: `Are you sure you want to ban ${target.username} for reason:\n\`${reason}\`?`,
+            content: `Are you sure you want to ban ${target.displayName} for reason: \`${reason}\`?`,
             components: [row],
             withResponse: true,
         });
@@ -39,7 +39,7 @@ module.exports = {
             if (confirmation.customId === 'confirm') {
                 await interaction.guild.members.ban(target);
                 await confirmation.update({
-                    content: `${target.username} has been banned for reason:\n\`${reason}\`.`,
+                    content: `${target.displayName} has been banned for reason: \`${reason}\`.`,
                     components: []
                 });
             } else if (confirmation.customId === 'cancel') {

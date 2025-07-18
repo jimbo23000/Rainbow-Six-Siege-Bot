@@ -28,11 +28,11 @@ sequelize.sync({ force }).then(async () => {
                 resolve();
             })
             .on('error', (error) => {
-                console.error(`Error parsing items:\n\`${error.message}\``);
+                console.error(`Error parsing items: \`${error.message}\`.`);
                 reject(error);
             });
     });
     await Promise.all(items.map(item => CurrencyShop.upsert(item)));
-    console.log('Finished database initialization.');
+    console.log('Successfully finished database initialization.');
     sequelize.close();
 }).catch(console.error);
