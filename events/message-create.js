@@ -8,5 +8,6 @@ module.exports = {
             return;
         }
 	    addBalance(message.author.id, 1);
+        console.log(`[MessageCreate] Added $1 to ${message.author.displayName}'s account.`);
     },
 };
