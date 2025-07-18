@@ -9,14 +9,14 @@ const accounts = new Collection();
 })();
 
 async function addBalance(id, amount) {
-	const user = accounts.get(id);
+	let user = accounts.get(id);
 	if (user) {
 		user.balance += Number(amount);
 		return user.save();
 	} else {
-		const newUser = await Users.create({ user_id: id, balance: amount });
-		accounts.set(id, newUser);
-		return newUser;
+		user = await Users.create({ user_id: id, balance: amount });
+		accounts.set(id, user);
+		return user;
 	}
 }
 

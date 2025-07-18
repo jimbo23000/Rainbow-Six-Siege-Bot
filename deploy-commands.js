@@ -23,6 +23,6 @@ const { commandsJSONified } = require('./load-commands.js');
         */
         console.log(`Successfully reloaded ${data.length} application (/) commands.`);
     } catch (error) {
-        console.error(error);
+        console.error(`Error reloading application (/) commands: ${error.message}.`);
     }
 })();

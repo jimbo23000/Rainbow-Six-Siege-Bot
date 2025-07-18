@@ -1,4 +1,4 @@
-const { InteractionContextType, MessageFlags, SlashCommandBuilder } = require('discord.js');
+const { InteractionContextType, SlashCommandBuilder } = require('discord.js');
 const { getBalance } = require('../../helpers/balances.js');
 
 module.exports = {
@@ -12,9 +12,6 @@ module.exports = {
         .setContexts(InteractionContextType.Guild),
     async execute(interaction) {
         const target = interaction.options.getUser('target') ?? interaction.user;
-        await interaction.reply({
-            content: `${target.displayName}'s account has a balance of $${getBalance(target.id)}.`,
-            flags: MessageFlags.Ephemeral
-        });
+        return interaction.reply(`${target.displayName}'s account has a balance of $${getBalance(target.id)}.`);
     },
 };

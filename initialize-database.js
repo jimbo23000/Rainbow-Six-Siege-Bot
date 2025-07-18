@@ -28,7 +28,7 @@ sequelize.sync({ force }).then(async () => {
                 resolve();
             })
             .on('error', (error) => {
-                console.error(`Error parsing items: \`${error.message}\`.`);
+                console.error(`Error parsing items: ${error.message}.`);
                 reject(error);
             });
     });

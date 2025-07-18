@@ -9,7 +9,7 @@ module.exports = {
             option
                 .setName('amount')
                 .setDescription('The amount of funds to transfer.')
-                .setMinValue(0)
+                .setMinValue(1)
                 .setRequired(true))
         .addUserOption(option =>
             option

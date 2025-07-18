@@ -26,6 +26,6 @@ module.exports = {
                 flags: MessageFlags.Ephemeral
             });
         }
-        await interaction.reply(`${target.displayName} has ${items.map(i => `${i.amount} ${i.item.name}${i.amount > 1 ? 's' : ''}`).join(', ')} in their inventory.`);
+        return interaction.reply(`${target.displayName} has ${items.map(i => `${i.amount} ${i.item.name}${i.amount > 1 ? 's' : ''}`).join(', ')} in their inventory.`);
     },
 };
