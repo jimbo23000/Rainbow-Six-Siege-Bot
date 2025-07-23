@@ -11,11 +11,11 @@ module.exports = {
         }
         if (interaction.isChatInputCommand()) {
             const { cooldowns } = interaction.client;
-            if (!cooldowns.has(command.data.name)) {
-                cooldowns.set(command.data.name, new Collection());
+            if (!cooldowns.has(commandName)) {
+                cooldowns.set(commandName, new Collection());
             }
             const now = Date.now();
-            const timestamps = cooldowns.get(command.data.name);
+            const timestamps = cooldowns.get(commandName);
             const defaultCooldownDuration = 5;
             const cooldownAmount = (command.cooldown ?? defaultCooldownDuration) * 1_000;
             if (timestamps.has(interaction.user.id)) {

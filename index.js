@@ -12,6 +12,7 @@ const client = new Client({
 
 client.commands = require('./load-commands.js').commands;
 client.cooldowns = new Collection();
+client.timestamps = new Collection();
 
 require('./event-handler.js').eventHandler(client);
 
