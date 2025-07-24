@@ -3,14 +3,14 @@ const { Collection, Events, MessageFlags } = require('discord.js');
 module.exports = {
     name: Events.InteractionCreate,
     async execute(interaction) {
-        const commandName = interaction.commandName;
-        const command = interaction.client.commands.get(commandName);
-        if (!command) {
-            console.error(`[InteractionCreate] Unable to find a command named ${commandName}.`);
-            return;
-        }
         if (interaction.isChatInputCommand()) {
             const { cooldowns } = interaction.client;
+            const commandName = interaction.commandName;
+            const command = interaction.client.commands.get(commandName);
+            if (!command) {
+                console.error(`[InteractionCreate] Unable to find a command named ${commandName}.`);
+                return;
+            }
             if (!cooldowns.has(commandName)) {
                 cooldowns.set(commandName, new Collection());
             }
@@ -47,6 +47,12 @@ module.exports = {
                 }
             }
         } else if (interaction.isAutocomplete()) {
+            const commandName = interaction.commandName;
+            const command = interaction.client.commands.get(commandName);
+            if (!command) {
+                console.error(`[InteractionCreate] Unable to find a command named ${commandName}.`);
+                return;
+            }
             try {
                 await command.autocomplete(interaction);
             } catch (error) {
