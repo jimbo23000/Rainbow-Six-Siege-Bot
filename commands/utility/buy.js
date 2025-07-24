@@ -1,6 +1,7 @@
 const { InteractionContextType, MessageFlags, SlashCommandBuilder } = require('discord.js');
 const { CurrencyShop, Users } = require('../../load-database.js');
 const { addBalance, getBalance } = require('../../helpers/balances.js');
+const { getResponseConfirmation } = require('../../helpers/buttons.js');
 const { Op } = require('sequelize');
 
 module.exports = {
@@ -43,9 +44,15 @@ module.exports = {
                 flags: MessageFlags.Ephemeral
             });
         }
+        const _content1 = `${interaction.user.displayName} would you like to buy a${isVowel.test(item.name) ? 'n' : ''} ${item.name} for $${item.cost}?`;
+        const _content2 = 'Action confirmed. Proceeding to buy...';
+        if (!(await getResponseConfirmation(_content1, _content2, interaction.user.id, interaction))) {
+            return;
+        }
         const user = await Users.findOne({ where: { user_id: interaction.user.id } });
         addBalance(interaction.user.id, -item.cost);
+        console.log(`[buy] Subtracted $${item.cost} from ${interaction.user.displayName}'s account.`);
         await user.addItem(item);
-        return interaction.reply(`Congratulations you've bought a${isVowel.test(item.name) ? 'n' : ''} ${item.name} for $${item.cost}.`);
+        return interaction.editReply(`Congratulations you've bought a${isVowel.test(item.name) ? 'n' : ''} ${item.name} for $${item.cost}.`);
     },
 };

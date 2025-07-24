@@ -1,5 +1,5 @@
 const { InteractionContextType, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { createConfirmCancelButtons } = require('../../helpers/buttons.js');
+const { getResponseConfirmation } = require('../../helpers/buttons.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,31 +19,10 @@ module.exports = {
     async execute(interaction) {
         const target = interaction.options.getUser('target');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
-        const response = await interaction.reply({
-            content: `Are you sure you want to kick ${target.displayName} for reason: \`${reason}\`?`,
-            components: [createConfirmCancelButtons()],
-            withResponse: true,
-        });
-        const collectorFilter = i => i.user.id === interaction.user.id;
-        try {
-            const confirmation = await response.resource.message.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
-            if (confirmation.customId === 'confirm') {
-                await interaction.guild.members.kick(target);
-                await confirmation.update({
-                    content: `${target.displayName} has been kicked for reason: \`${reason}\`.`,
-                    components: []
-                });
-            } else if (confirmation.customId === 'cancel') {
-                await confirmation.update({
-                    content: 'Action cancelled.',
-                    components: []
-                });
-            }
-        } catch {
-            await interaction.editReply({
-                content: 'Confirmation not received within 1 minute, cancelling.',
-                components: []
-            });
+        const _content1 = `Are you sure you want to kick ${target.displayName} for reason: \`${reason}\`?`;
+        const _content2 = `${target.displayName} has been kicked for reason: \`${reason}\`.`;
+        if (await getResponseConfirmation(_content1, _content2, interaction.user.id, interaction)) {
+            return interaction.guild.members.kick(target);
         }
     },
 };

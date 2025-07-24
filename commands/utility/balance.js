@@ -11,11 +11,8 @@ module.exports = {
                 .setDescription(`The member's account balance to retrieve.`))
         .setContexts(InteractionContextType.Guild),
     async execute(interaction) {
-        const target = interaction.options.getUser('target');
-        if (target) {
-            return interaction.reply(`${target.displayName}'s account has a balance of $${getBalance(target.id)}.`);
-        } else {
-            return interaction.reply(`Your account has a balance of $${getBalance(interaction.user.id)}.`);
-        }
+        const target = interaction.options.getUser('target') ?? interaction.user;
+        const isUser = interaction.user.id === target.id;
+        return interaction.reply(`${isUser ? 'Your' : `${target.displayName}'s`} account has a balance of $${getBalance(target.id)}.`);
     },
 };

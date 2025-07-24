@@ -1,36 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { addBalance, getBalance } = require('../../helpers/balances.js');
-const { createConfirmCancelButtons } = require('../../helpers/buttons.js');
-
-async function getConfirmation(_content, _id, interaction) {
-    const message = await interaction.editReply({
-        content: _content,
-        components: [createConfirmCancelButtons()],
-    });
-    const collectorFilter = i => i.user.id === _id;
-    try {
-        const confirmation = await message.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
-        if (confirmation.customId === 'confirm') {
-            await confirmation.update({
-                content: 'Action confirmed. Proceeding with coin flip...',
-                components: []
-            });
-            return true;
-        } else if (confirmation.customId === 'cancel') {
-            await confirmation.update({
-                content: 'Action cancelled.',
-                components: []
-            });
-            return false;
-        }
-    } catch {
-        await interaction.editReply({
-            content: 'Confirmation not received within 1 minute, cancelling.',
-            components: []
-        });
-        return false;
-    }
-}
+const { getMessageConfirmation } = require('../../helpers/buttons.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -64,8 +34,9 @@ module.exports = {
         if (amount > balance) {
             return interaction.editReply(`Your account has a balance of $${balance}. Unfortunately you're unable to wager $${amount} on ${side} against ${target ? target.displayName : 'the house'}.`);
         }
-        let _content = `${interaction.user.displayName} would you like to wager $${amount} on ${side} against ${target ? target.displayName : 'the house'}?`;
-        if (!(await getConfirmation(_content, interaction.user.id, interaction))) {
+        let _content1 = `${interaction.user.displayName} would you like to wager $${amount} on ${side} against ${target ? target.displayName : 'the house'}?`;
+        const _content2 = 'Action Confirmed. Proceeding with coin flip...'
+        if (!(await getMessageConfirmation(_content1, _content2, interaction.user.id, interaction))) {
             return;
         }
         if (target) {
@@ -73,8 +44,8 @@ module.exports = {
             if (amount > balance) {
                 return interaction.editReply(`${target.displayName}'s account has a balance of $${balance}. Unfortunately they're unable to wager $${amount} on ${side === 'heads' ? 'tails' : 'heads'} against you.`);
             }
-            _content = `${target.displayName} would you like to wager $${amount} on ${side === 'heads' ? 'tails' : 'heads'} against ${interaction.user.displayName}?`;
-            if (!(await getConfirmation(_content, target.id, interaction))) {
+            _content1 = `${target.displayName} would you like to wager $${amount} on ${side === 'heads' ? 'tails' : 'heads'} against ${interaction.user.displayName}?`;
+            if (!(await getMessageConfirmation(_content1, _content2, target.id, interaction))) {
                 return;
             }
         }
