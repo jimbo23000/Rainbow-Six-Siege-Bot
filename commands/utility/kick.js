@@ -1,9 +1,10 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, InteractionContextType, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { InteractionContextType, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { createConfirmCancelButtons } = require('../../helpers/buttons.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('kick')
-        .setDescription('Select a member and kick them.')
+        .setDescription('Selects a member and kicks them.')
         .addUserOption(option =>
             option
                 .setName('target')
@@ -18,19 +19,9 @@ module.exports = {
     async execute(interaction) {
         const target = interaction.options.getUser('target');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
-        const confirm = new ButtonBuilder()
-            .setCustomId('confirm')
-            .setLabel('Confirm Kick')
-            .setStyle(ButtonStyle.Danger);
-        const cancel = new ButtonBuilder()
-            .setCustomId('cancel')
-            .setLabel('Cancel')
-            .setStyle(ButtonStyle.Secondary);
-        const row = new ActionRowBuilder()
-            .addComponents(cancel, confirm);
         const response = await interaction.reply({
             content: `Are you sure you want to kick ${target.displayName} for reason: \`${reason}\`?`,
-            components: [row],
+            components: [createConfirmCancelButtons()],
             withResponse: true,
         });
         const collectorFilter = i => i.user.id === interaction.user.id;

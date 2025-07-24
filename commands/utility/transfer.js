@@ -23,7 +23,7 @@ module.exports = {
         const target = interaction.options.getUser('target');
         if (amount > balance) {
             return interaction.reply({
-                content: `Your account has a balance of $${getBalance(interaction.user.id)}. Unfortunately you're unable to transfer $${amount} to ${target.displayName}'s account.`,
+                content: `Your account has a balance of $${balance}. Unfortunately you're unable to transfer $${amount} to ${target.displayName}'s account.`,
                 flags: MessageFlags.Ephemeral
             });
         }

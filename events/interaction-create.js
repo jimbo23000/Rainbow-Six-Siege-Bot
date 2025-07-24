@@ -33,7 +33,7 @@ module.exports = {
             try {
                 await command.execute(interaction);
             } catch (error) {
-                console.error(`[InteractionCreate] Error executing the command ${commandName}: ${error.message}.`);
+                console.error(`[InteractionCreate] Error executing the command ${commandName}: ${error.message}`);
                 if (interaction.replied || interaction.deferred) {
                     await interaction.followUp({
                         content: `Error executing the command \`${commandName}\`.`,
@@ -50,7 +50,7 @@ module.exports = {
             try {
                 await command.autocomplete(interaction);
             } catch (error) {
-                console.error(`[InteractionCreate] Error autocompleting the command ${commandName}: ${error.message}.`);
+                console.error(`[InteractionCreate] Error autocompleting the command ${commandName}: ${error.message}`);
                 return;
             }
         } else if (interaction.isButton()) {

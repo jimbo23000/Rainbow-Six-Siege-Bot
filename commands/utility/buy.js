@@ -1,6 +1,7 @@
 const { InteractionContextType, MessageFlags, SlashCommandBuilder } = require('discord.js');
 const { CurrencyShop, Users } = require('../../load-database.js');
 const { addBalance, getBalance } = require('../../helpers/balances.js');
+const { Op } = require('sequelize');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -23,7 +24,6 @@ module.exports = {
     },
     async execute(interaction) {
         const itemName = interaction.options.getString('item');
-        const { Op } = require('sequelize');
         const item = await CurrencyShop.findOne({ where: { name: { [Op.like]: itemName } } });
         if (!item) {
             const formattedItemName = itemName

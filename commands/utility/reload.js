@@ -1,4 +1,6 @@
 const { MessageFlags, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,13 +20,32 @@ module.exports = {
 				flags: MessageFlags.Ephemeral
 			});
 		}
-		delete require.cache[require.resolve(`./${commandName}.js`)];
+		const commandsPath = path.join(__dirname, '..');
+		let commandFile = null;
+		const folders = fs.readdirSync(commandsPath, { withFileTypes: true });
+		for (const folder of folders) {
+			if (!folder.isDirectory()) {
+				continue;
+			}
+			const folderPath = path.join(commandsPath, folder.name);
+			const files = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
+			for (const file of files) {
+				if (file === `${commandName}.js`) {
+					commandFile = path.join(folderPath, file);
+					break;
+				}
+			}
+			if (commandFile) {
+				break;
+			}
+		}
 		try {
-			command = require(`./${commandName}.js`);
+			delete require.cache[require.resolve(commandFile)];
+			command = require(commandFile);
 			interaction.client.commands.set(commandName, command);
 			await interaction.reply(`Successfully reloaded the command \`${commandName}\`.`);
 		} catch (error) {
-			console.error(`Error reloading the command ${commandName}: ${error.message}.`);
+			console.error(`Error reloading the command ${commandName}: ${error.message}`);
 			await interaction.reply({
 				content: `Error reloading the command \`${commandName}\`.`,
 				flags: MessageFlags.Ephemeral
