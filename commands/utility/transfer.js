@@ -1,5 +1,6 @@
 const { InteractionContextType, MessageFlags, SlashCommandBuilder } = require('discord.js');
 const { addBalance, getBalance } = require('../../helpers/balances.js');
+const { getResponseConfirmation } = require('../../helpers/buttons.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,8 +28,15 @@ module.exports = {
                 flags: MessageFlags.Ephemeral
             });
         }
+        const _content1 = `${interaction.user.displayName} would you like to transfer $${amount} to ${target.displayName}'s account?`;
+        const _content2 = 'Action confirmed. Proceeding with the transfer...'
+        if (!(await getResponseConfirmation(_content1, _content2, interaction.user.id, interaction))) {
+            return;
+        }
         addBalance(interaction.user.id, -amount);
+        console.log(`[transfer] Subtracted $${amount} from ${interaction.user.displayName}'s account.`);
         addBalance(target.id, amount);
-        return interaction.reply(`Congratulations you've transferred $${amount} to ${target.displayName}'s account.`);
+        console.log(`[transfer] Added $${amount} to ${target.displayName}'s account.`);
+        return interaction.editReply(`Congratulations you've transferred $${amount} to ${target.displayName}'s account.`);
     },
 };

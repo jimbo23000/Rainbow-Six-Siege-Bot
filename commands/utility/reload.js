@@ -43,10 +43,10 @@ module.exports = {
 			delete require.cache[require.resolve(commandFile)];
 			command = require(commandFile);
 			interaction.client.commands.set(commandName, command);
-			await interaction.reply(`Successfully reloaded the command \`${commandName}\`.`);
+			return interaction.reply(`Successfully reloaded the command \`${commandName}\`.`);
 		} catch (error) {
 			console.error(`Error reloading the command ${commandName}: ${error.message}`);
-			await interaction.reply({
+			return interaction.reply({
 				content: `Error reloading the command \`${commandName}\`.`,
 				flags: MessageFlags.Ephemeral
 			});
