@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, time } = require('discord.js');
 const { addBalance } = require('../helpers/balances.js');
 
 module.exports = {
@@ -15,6 +15,10 @@ module.exports = {
                 .catch(console.error);
         } else if (oldChannelId && !newChannelId) {
             const { timestamps } = oldState.client;
+            if (!timestamps.get(oldState.member.user.id)) {
+                console.log(`[VoiceStatusUpdate] Unable to find a timestamp for ${oldState.member.user.displayName}.`);
+                return;
+            }
             const amount = Math.floor((now - timestamps.get(oldState.member.user.id)) / 60_000);
             addBalance(oldState.member.user.id, amount);
             console.log(`[VoiceStatusUpdate] Added $${amount} to ${oldState.member.user.displayName}'s account.`);
