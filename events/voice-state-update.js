@@ -20,8 +20,10 @@ module.exports = {
                 return;
             }
             const amount = Math.floor((now - timestamps.get(oldState.member.user.id)) / 60_000);
-            addBalance(oldState.member.user.id, amount);
-            console.log(`[VoiceStatusUpdate] Added $${amount} to ${oldState.member.user.displayName}'s account.`);
+            if (amount > 0) {
+                addBalance(oldState.member.user.id, amount);
+                console.log(`[VoiceStatusUpdate] Added $${amount} to ${oldState.member.user.displayName}'s account.`);
+            }
             timestamps.delete(oldState.member.user.id);
             oldState.client.channels.fetch(oldChannelId)
                 .then(channel => console.log(`${oldState.member.user.displayName} has left channel ${channel.name} at ${new Date(now)}.`))
