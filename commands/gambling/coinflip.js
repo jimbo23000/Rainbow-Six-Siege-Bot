@@ -5,7 +5,7 @@ const { getMessageConfirmation } = require('../../helpers/buttons.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('coinflip')
-        .setDescription('Coin flips funds against the house or a member.')
+        .setDescription('Gambles funds in a coin flip against the house or a member.')
         .addIntegerOption(option =>
             option
                 .setName('amount')
@@ -35,7 +35,7 @@ module.exports = {
             return interaction.editReply(`Your account has a balance of $${balance}. Unfortunately you're unable to wager $${amount} on ${side} against ${target ? target.displayName : 'the house'}.`);
         }
         let _content1 = `${interaction.user.displayName} would you like to wager $${amount} on ${side} against ${target ? target.displayName : 'the house'}?`;
-        const _content2 = 'Action Confirmed. Proceeding with coin flip...'
+        const _content2 = 'Action Confirmed. Proceeding with the coin flip...'
         if (!(await getMessageConfirmation(_content1, _content2, interaction.user.id, interaction))) {
             return;
         }
