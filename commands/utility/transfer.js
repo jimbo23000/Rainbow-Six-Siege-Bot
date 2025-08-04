@@ -28,9 +28,9 @@ module.exports = {
                 flags: MessageFlags.Ephemeral
             });
         }
-        const _content1 = `${interaction.user.displayName} would you like to transfer $${amount} to ${target.displayName}'s account?`;
-        const _content2 = 'Action confirmed. Proceeding with the transfer...'
-        if (!(await getResponseConfirmation(_content1, _content2, interaction.user.id, interaction))) {
+        const prompt = `${interaction.user.displayName} would you like to transfer $${amount} to ${target.displayName}'s account?`;
+        const followUp = 'Action confirmed. Proceeding with the transfer...'
+        if (!(await getResponseConfirmation(prompt, followUp, interaction.user.id, interaction))) {
             return;
         }
         addBalance(interaction.user.id, -amount);

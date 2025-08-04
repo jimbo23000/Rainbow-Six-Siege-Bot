@@ -19,9 +19,9 @@ module.exports = {
     async execute(interaction) {
         const target = interaction.options.getUser('target');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
-        const _content1 = `Are you sure you want to ban ${target.displayName} for reason: \`${reason}\`?`;
-        const _content2 = `${target.displayName} has been banned for reason: \`${reason}\`.`;
-        if (await getResponseConfirmation(_content1, _content2, interaction.user.id, interaction)) {
+        const prompt = `Are you sure you want to ban ${target.displayName} for reason: \`${reason}\`?`;
+        const followUp = `${target.displayName} has been banned for reason: \`${reason}\`.`;
+        if (await getResponseConfirmation(prompt, followUp, interaction.user.id, interaction)) {
             return interaction.guild.members.ban(target);
         }
     },

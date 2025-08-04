@@ -44,9 +44,9 @@ module.exports = {
                 flags: MessageFlags.Ephemeral
             });
         }
-        const _content1 = `${interaction.user.displayName} would you like to buy a${isVowel.test(item.name) ? 'n' : ''} ${item.name} for $${item.cost}?`;
-        const _content2 = 'Action confirmed. Proceeding to buy...';
-        if (!(await getResponseConfirmation(_content1, _content2, interaction.user.id, interaction))) {
+        const prompt = `${interaction.user.displayName} would you like to buy a${isVowel.test(item.name) ? 'n' : ''} ${item.name} for $${item.cost}?`;
+        const followUp = 'Action confirmed. Proceeding to buy...';
+        if (!(await getResponseConfirmation(prompt, followUp, interaction.user.id, interaction))) {
             return;
         }
         const user = await Users.findOne({ where: { user_id: interaction.user.id } });

@@ -25,9 +25,9 @@ module.exports = {
         if (amount > balance) {
             return interaction.editReply(`Your account has a balance of $${balance}. Unfortunately you're unable to wager $${amount} in a round of blackjack against ${target ? target.displayName : 'the house'}.`);
         }
-        let _content1 = `${interaction.user.displayName} would you like to wager $${amount} in a round of blackjack against ${target ? target.displayName : 'the house'}?`;
-        const _content2 = 'Action Confirmed. Proceeding with the round of blackjack...'
-        if (!(await getMessageConfirmation(_content1, _content2, interaction.user.id, interaction))) {
+        let prompt = `${interaction.user.displayName} would you like to wager $${amount} in a round of blackjack against ${target ? target.displayName : 'the house'}?`;
+        const followUp = 'Action Confirmed. Proceeding with the round of blackjack...'
+        if (!(await getMessageConfirmation(prompt, followUp, interaction.user.id, interaction))) {
             return;
         }
         if (target) {
@@ -35,8 +35,8 @@ module.exports = {
             if (amount > balance) {
                 return interaction.editReply(`${target.displayName}'s account has a balance of $${balance}. Unfortunately they're unable to wager $${amount} in a round of blackjack against you.`);
             }
-            _content1 = `${target.displayName} would you like to wager $${amount} in a round of blackjack against ${interaction.user.displayName}?`;
-            if (!(await getMessageConfirmation(_content1, _content2, target.id, interaction))) {
+            prompt = `${target.displayName} would you like to wager $${amount} in a round of blackjack against ${interaction.user.displayName}?`;
+            if (!(await getMessageConfirmation(prompt, followUp, target.id, interaction))) {
                 return;
             }
         }
