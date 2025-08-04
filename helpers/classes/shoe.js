@@ -32,4 +32,4 @@ class Shoe {
     }
 }
 
-module.exports = { Shoe }
+module.exports = { Shoe };
