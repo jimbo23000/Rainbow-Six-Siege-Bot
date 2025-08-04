@@ -14,17 +14,17 @@ function createConfirmCancelButtons() {
     return row;
 }
 
-async function getMessageConfirmation(_content1, _content2, _id, interaction) {
+async function getMessageConfirmation(prompt, followUp, id, interaction) {
     const message = await interaction.editReply({
-        content: _content1,
+        content: prompt,
         components: [createConfirmCancelButtons()],
     });
-    const collectorFilter = i => i.user.id === _id;
+    const collectorFilter = i => i.user.id === id;
     try {
         const confirmation = await message.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
         if (confirmation.customId === 'confirm') {
             await confirmation.update({
-                content: _content2,
+                content: followUp,
                 components: []
             });
             return true;
@@ -44,18 +44,18 @@ async function getMessageConfirmation(_content1, _content2, _id, interaction) {
     }
 }
 
-async function getResponseConfirmation(_content1, _content2, _id, interaction) {
+async function getResponseConfirmation(prompt, followUp, id, interaction) {
     const response = await interaction.reply({
-        content: _content1,
+        content: prompt,
         components: [createConfirmCancelButtons()],
         withResponse: true,
     });
-    const collectorFilter = i => i.user.id === _id;
+    const collectorFilter = i => i.user.id === id;
     try {
         const confirmation = await response.resource.message.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
         if (confirmation.customId === 'confirm') {
             await confirmation.update({
-                content: _content2,
+                content: followUp,
                 components: []
             });
             return true;
