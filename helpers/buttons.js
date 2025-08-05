@@ -3,13 +3,13 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 function createButtons(customOptions = []) {
     const defaultOptions = [
         { id: 'cancel', label: 'Cancel', style: ButtonStyle.Secondary },
-        { id: 'confirm', label: 'Confirm', style: ButtonStyle.Danger },
+        { id: 'confirm', label: 'Confirm', style: ButtonStyle.Danger }
     ];
     const finalOptions = defaultOptions.map((defaultOption, i) => {
         return {
             id: customOptions[i]?.id ?? defaultOption.id,
             label: customOptions[i]?.label ?? defaultOption.label,
-            style: customOptions[i]?.style ?? defaultOption.style,
+            style: customOptions[i]?.style ?? defaultOption.style
         };
     });
     const buttons = finalOptions.map(({ id, label, style }) =>
@@ -50,7 +50,7 @@ async function handleConfirmation(followUp, id, interaction, message) {
 async function getMessageConfirmation(prompt, followUp, id, interaction, customOptions = []) {
     const message = await interaction.editReply({
         content: prompt,
-        components: [createButtons(customOptions)],
+        components: [createButtons(customOptions)]
     });
     return handleConfirmation(followUp, id, interaction, message);
 }
@@ -59,7 +59,7 @@ async function getResponseConfirmation(prompt, followUp, id, interaction, custom
     const response = await interaction.reply({
         content: prompt,
         components: [createButtons(customOptions)],
-        withResponse: true,
+        withResponse: true
     });
     return handleConfirmation(followUp, id, interaction, response.resource.message);
 }
