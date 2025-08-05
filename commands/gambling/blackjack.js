@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { ButtonStyle, SlashCommandBuilder } = require('discord.js');
 const { addBalance, getBalance } = require('../../helpers/balances.js');
 const { getMessageConfirmation } = require('../../helpers/buttons.js');
 const { Shoe } = require('../../helpers/classes/shoe.js');
@@ -43,8 +43,20 @@ module.exports = {
         }
         const cards = [[], []];
         const shoe = new Shoe();
-        for (const i = 0; i < 4; ++i) {
+        for (let i = 0; i < 4; ++i) {
             cards[i % 2].push(shoe.draw());
+        }
+        prompt = '';
+        const customOptions = [
+            { id: 'hit', label: 'Hit', style: ButtonStyle.Success }, 
+            { id: 'stand', label: 'Stand', style: ButtonStyle.Danger }, 
+            { id: 'double down', label: 'Double Down', style: ButtonStyle.Primary }
+        ];
+        if (cards[0][0].rank === cards[0][1].rank) {
+            customOptions.push({ id: 'split', label: 'Split', style: ButtonStyle.Primary });
+        }
+        if (!(await getMessageConfirmation(prompt, followUp, interaction.user.id, interaction, customOptions))) {
+            return;
         }
     },
 };

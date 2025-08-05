@@ -12,13 +12,20 @@ function createButtons(customOptions = []) {
             style: customOptions[i]?.style ?? defaultOption.style
         };
     });
+    for (let i = 2; i < customOptions.length; ++i) {
+        finalOptions.push(customOptions[i]);
+    }
     const buttons = finalOptions.map(({ id, label, style }) =>
         new ButtonBuilder()
             .setCustomId(id)
             .setLabel(label)
             .setStyle(style)
     );
-    return new ActionRowBuilder().addComponents(...buttons);
+    const rows = [];
+    for (let i = 0; i < buttons.length && rows.length < 5; i += 5) {
+        rows.push(new ActionRowBuilder().addComponents(...buttons.slice(i, i + 5)));
+    }
+    return rows;
 }
 
 async function handleConfirmation(followUp, id, interaction, message) {
@@ -53,7 +60,7 @@ async function handleConfirmation(followUp, id, interaction, message) {
 async function getMessageConfirmation(prompt, followUp, id, interaction, customOptions = []) {
     const message = await interaction.editReply({
         content: prompt,
-        components: [createButtons(customOptions)]
+        components: createButtons(customOptions)
     });
     return handleConfirmation(followUp, id, interaction, message);
 }
@@ -61,7 +68,7 @@ async function getMessageConfirmation(prompt, followUp, id, interaction, customO
 async function getResponseConfirmation(prompt, followUp, id, interaction, customOptions = []) {
     const response = await interaction.reply({
         content: prompt,
-        components: [createButtons(customOptions)],
+        components: createButtons(customOptions),
         withResponse: true
     });
     return handleConfirmation(followUp, id, interaction, response.resource.message);

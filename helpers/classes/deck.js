@@ -10,8 +10,8 @@ class Deck {
 
     createDeck() {
         const cards = [];
-        ranks.forEach(rank => {
-            suits.forEach(suit => {
+        Deck.ranks.forEach(rank => {
+            Deck.suits.forEach(suit => {
                 cards.push(new Card(rank, suit));
             });
         });
