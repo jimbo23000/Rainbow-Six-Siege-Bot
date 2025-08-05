@@ -1,11 +1,12 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { addBalance, getBalance } = require('../../helpers/balances.js');
 const { getMessageConfirmation } = require('../../helpers/buttons.js');
+const { Shoe } = require('../../helpers/classes/shoe.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('blackjack')
-        .setDescription('Gambles funds in a round of blackjack against the house.')
+        .setDescription('Gambles funds in blackjack against the house or a member.')
         .addIntegerOption(option =>
             option
                 .setName('amount')
