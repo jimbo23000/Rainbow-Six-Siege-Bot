@@ -41,5 +41,10 @@ module.exports = {
                 return;
             }
         }
+        const cards = [[], []];
+        const shoe = new Shoe();
+        for (const i = 0; i < 4; ++i) {
+            cards[i % 2].push(shoe.draw());
+        }
     },
 };

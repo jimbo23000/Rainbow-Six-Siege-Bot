@@ -25,18 +25,21 @@ async function handleConfirmation(followUp, id, interaction, message) {
     const collectorFilter = i => i.user.id === id;
     try {
         const confirmation = await message.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
-        if (confirmation.customId === 'confirm') {
-            await confirmation.update({
-                content: followUp,
-                components: []
-            });
-            return true;
-        } else if (confirmation.customId === 'cancel') {
-            await confirmation.update({
-                content: 'Action cancelled.',
-                components: []
-            });
-            return false;
+        switch(confirmation.customId) {
+            case 'cancel':
+                await confirmation.update({
+                    content: 'Action cancelled.',
+                    components: []
+                });
+                return false;
+            case 'confirm':
+                await confirmation.update({
+                    content: followUp,
+                    components: []
+                });
+                return true;
+            default:
+                return false;
         }
     } catch {
         await interaction.editReply({
